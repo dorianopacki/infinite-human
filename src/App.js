@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+import React, {useState, useEffect} from "react"
 import './App.css';
+import {SinglePerson} from "./components/SinglePerson"
 
 function App() {
+const url = "https://randomuser.me/api/?results=100"
+const [people, setPeople] = useState([]);
+
+useEffect(() => {
+  const controller = new AbortController();
+  fetch(url)
+  .then(response => response.json())
+  .then(response => setPeople(response.results))
+  .catch(error => console.log(error))
+  return () => controller.abort();
+}, [])
+
+  const list = people.map(human => {
+    return <SinglePerson picture = {human.picture.large} name = {human.name.first} lastName = {human.name.last} gender = {human.gender} age = {human.dob.age} />
+  })
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className>
+      <h1>Infinite human</h1>
+      {list}
     </div>
   );
 }

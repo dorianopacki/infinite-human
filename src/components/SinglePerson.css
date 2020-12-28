@@ -1,0 +1,8 @@
+* {
+  text-align: center;
+}
+
+.person {
+  border-bottom: 1px solid gray;
+  margin: 20px 0;
+}
