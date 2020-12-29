@@ -1,5 +1,5 @@
 import React from "react";
-import "./SinglePerson.css"
+import "../styles/SinglePerson.css"
 
 export const SinglePerson = ({ picture, name, lastName, gender, age }) => {
   return (
