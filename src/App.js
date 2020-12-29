@@ -1,23 +1,27 @@
 import React, {useState, useEffect} from "react"
 import './App.css';
-import {SinglePerson} from "./components/SinglePerson"
+import {generatePerson} from './components/generatePerson'
+import { SinglePerson } from "./components/SinglePerson";
+
 
 function App() {
-const url = "https://randomuser.me/api/?results=100"
-const [people, setPeople] = useState([]);
+  const url = 'https://randomuser.me/api/?results=100'
+  const [pictures, setPictures] = useState([])
 
-useEffect(() => {
-  const controller = new AbortController();
-  fetch(url)
-  .then(response => response.json())
-  .then(response => setPeople(response.results))
-  .catch(error => console.log(error))
-  return () => controller.abort();
-}, [])
+  useEffect(() => {
+    fetch(url)
+    .then(response => response.json())
+    .then(response => setPictures(response.results))
+  }, [])
 
-  const list = people.map(human => {
-    return <SinglePerson picture = {human.picture.large} name = {human.name.first} lastName = {human.name.last} gender = {human.gender} age = {human.dob.age} />
+  //TODO make it set picture up to correct gender
+  const list = pictures.map(human => {
+    const {name, lastName, gender, age} = generatePerson();
+    const picture = human.picture.large
+    return <SinglePerson key = {name + age} name = {name} lastName = {lastName} gender = {gender} age = {age} picture = {picture}/>
+
   })
+
   return (
     <div className>
       <h1>Infinite human</h1>
